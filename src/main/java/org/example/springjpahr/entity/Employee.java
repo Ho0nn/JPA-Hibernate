@@ -1,21 +1,24 @@
 package org.example.springjpahr.entity;
-import jakarta.persistence.*;  // Use Jakarta Persistence API imports only
+
+import jakarta.persistence.*;
 
 @Entity
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+   // @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "department_gen")
+    @SequenceGenerator(name = "department_gen",sequenceName = "department_seq",initialValue = 100)
     private Long id;
 
     private String name;
-
     private Double salary;
 
     @ManyToOne
     @JoinColumn(name = "department_id", referencedColumnName = "id")
-   // @JsonIgnore
     private Department department;
+
     @OneToOne
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private User user;
