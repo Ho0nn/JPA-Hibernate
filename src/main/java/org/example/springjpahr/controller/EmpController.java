@@ -1,5 +1,6 @@
 package org.example.springjpahr.controller;
 
+import org.example.springjpahr.entity.EmpResponse;
 import org.example.springjpahr.entity.Employee;
 import org.example.springjpahr.service.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,15 @@ public class EmpController {
     private EmpService empService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> findById(@PathVariable Long id) {
-        Employee employee = empService.findById(id);
-        return ResponseEntity.ok(employee);
+    public EmpResponse findById(@PathVariable Long id) {
+        Employee emp = empService.findById(id);
+        EmpResponse res = new EmpResponse();
+        res.setId(emp.getId());
+        res.setName(emp.getName());
+        res.setSalary(emp.getSalary());
+        res.setDepartment(emp.getDepartment());
+        res.setUser(emp.getUser());
+        return res;
     }
 
     @GetMapping("/filter")

@@ -15,9 +15,9 @@ public class Department {
 
     private String name;
 
-    @OneToMany(mappedBy = "department")
-    @JsonIgnore
-    private List<Employee> employees;
+//    @OneToMany(mappedBy = "department",fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private List<Employee> employees;
 
     // getters and setters
     public Long getId() {
@@ -36,11 +36,11 @@ public class Department {
         this.name = name;
     }
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
-    }
+//    public List<Employee> getEmployees() {
+//        return employees;
+//    }
+//
+//    public void setEmployees(List<Employee> employees) {
+//        this.employees = employees;
+//    }
 }

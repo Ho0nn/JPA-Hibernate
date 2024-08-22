@@ -12,6 +12,8 @@ public class EmpService {
 
     @Autowired
     private EmpRepo empRepo;
+    @Autowired
+    private DepService depService;
 
     public Employee findById(Long id) {
         return empRepo.findById(id).orElseThrow();
@@ -22,9 +24,11 @@ public class EmpService {
     }
 
     public Employee insert(Employee emp) {
+        if (emp.getDepartment()!=null& emp.getDepartment().getId()!=null){
+            emp.setDepartment(depService.findById(emp.getDepartment().getId()));
+        }
         return empRepo.save(emp);
     }
-
     public Employee update(Employee emp) {
         Employee cur = empRepo.findById(emp.getId()).orElseThrow();
         cur.setName(emp.getName());

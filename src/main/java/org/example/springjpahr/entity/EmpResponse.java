@@ -1,26 +1,12 @@
 package org.example.springjpahr.entity;
 
-import jakarta.persistence.*;
-
-@Entity
-public class Employee {
-
-
-    @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "department_gen")
-    @SequenceGenerator(name = "department_gen",sequenceName = "department_seq",initialValue = 100)
-    private Long id;
+public class EmpResponse {
+   private Long id;
 
     private String name;
     private Double salary;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
-    @JoinColumn(name = "department_id")
     private Department department;
-
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
