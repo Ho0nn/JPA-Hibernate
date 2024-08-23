@@ -1,27 +1,44 @@
 package org.example.springjpahr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQuery(name = "Employee.findBySalaryAndName",query = "select emp from Employee emp where emp.salary>=:salary and name like : name")
+
+//Mapping 
+@SqlResultSetMapping(
+        name="empMapping",
+        entities = @EntityResult(
+        entityClass = Employee.class,
+        fields={
+                @FieldResult(name = "id",column = "id"),
+                @FieldResult(name = "name",column = "name"),
+                @FieldResult(name = "salary",column = "salary")}))
+
+@NamedNativeQuery(name = "Employee.findByDepartment",query = "select * from employee where department_id=:deptId",resultSetMapping = "empMapping")
+
+
+@SequenceGenerator(name = "employee_gen", sequenceName = "employee_seq", initialValue = 100)
 public class Employee {
 
-
     @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "department_gen")
-    @SequenceGenerator(name = "department_gen",sequenceName = "department_seq",initialValue = 100)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_gen")
     private Long id;
 
     private String name;
     private Double salary;
-
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinColumn(name = "department_id")
     private Department department;
-
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Employee() {}
+
 
     public Long getId() {
         return id;
@@ -62,4 +79,5 @@ public class Employee {
     public void setUser(User user) {
         this.user = user;
     }
+
 }

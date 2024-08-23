@@ -1,5 +1,4 @@
 package org.example.springjpahr.controller;
-
 import org.example.springjpahr.entity.EmpResponse;
 import org.example.springjpahr.entity.Employee;
 import org.example.springjpahr.service.EmpService;
@@ -27,6 +26,19 @@ public class EmpController {
         res.setDepartment(emp.getDepartment());
         res.setUser(emp.getUser());
         return res;
+    }
+
+    @GetMapping("/emp-dept")
+    public List<Employee> findByEmpAndDept(@RequestParam String empName,@RequestParam String deptName){
+        return empService.findByEmpAndDept(empName,deptName);
+    }
+    @GetMapping("/count-emp-dept")
+    public ResponseEntity<Long> countEmpDept(@RequestParam String empName,@RequestParam String deptName){
+        return ResponseEntity.ok(empService.countByEmpAndDept(empName,deptName));
+    }
+    @DeleteMapping("/delete-emp-dept")
+    public ResponseEntity<Long> deleteEmpDept(@RequestParam String empName,@RequestParam String deptName){
+        return ResponseEntity.ok(empService.deleteEmpDept(empName,deptName));
     }
 
     @GetMapping("/filter")
@@ -57,5 +69,9 @@ public class EmpController {
     public ResponseEntity<List<Employee>> findAll() {
         List<Employee> employees = empService.findAll();
         return ResponseEntity.ok(employees);
+    }
+    @GetMapping("/salary")
+    public ResponseEntity<?> findBySalaryAndName(@RequestParam Double salary, @RequestParam String name){
+        return ResponseEntity.ok(empService.findBySalaryAndName(salary,name));
     }
 }
