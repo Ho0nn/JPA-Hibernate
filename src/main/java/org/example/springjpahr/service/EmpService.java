@@ -1,8 +1,13 @@
 package org.example.springjpahr.service;
 
+import org.example.springjpahr.HRStatisticProjection;
 import org.example.springjpahr.entity.Employee;
 import org.example.springjpahr.repositories.EmpRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,8 +36,13 @@ public class EmpService {
         return empRepo.deleteByNameAndDepartmentName(empName, deptName);
     }
 
-    public List<Employee> filter(String name) {
-        return empRepo.filterNative(name);
+    public Page<Employee> filter(String name, int pageNum, int pageSize, String sortCol, Boolean isAsc) {
+       if(name.isEmpty()|| name.isBlank()||name==null){
+           name=null;
+       }
+        Pageable pageable = PageRequest.of(pageNum,pageSize,Sort.by(isAsc? Sort.Direction.ASC: Sort.Direction.DESC,sortCol));
+       return empRepo.filter(name,pageable);
+       // return empRepo.filter(name, Sort.by(isAsc? Sort.Direction.ASC: Sort.Direction.DESC,sortCol));
     }
 
     public Employee insert(Employee emp) {
@@ -60,5 +70,7 @@ public class EmpService {
     public List<Employee>findBySalaryAndName(@RequestParam Double salary,@RequestParam String name){
         return empRepo.findBySalaryAndName(salary,name);
     }
-
+    public HRStatisticProjection getHRStatistic(){
+        return empRepo.getHRStatistic();
+    }
 }

@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Entity
 @NamedQuery(name = "Employee.findBySalaryAndName",query = "select emp from Employee emp where emp.salary>=:salary and name like : name")
 
-//Mapping 
+//Mapping
 @SqlResultSetMapping(
         name="empMapping",
         entities = @EntityResult(

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -42,9 +41,10 @@ public class EmpController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<Employee>> findByName(@RequestParam String name) {
-        List<Employee> employees = empService.filter(name);
-        return ResponseEntity.ok(employees);
+    public ResponseEntity<?> findByName(@RequestParam String name,@RequestParam int pageNum,@RequestParam  int pageSize
+            ,@RequestParam String sortCol,@RequestParam Boolean isAsc ) {
+     //   List<Employee> employees = empService.filter(name,pageNum,pageSize,sortCol,isAsc);
+        return ResponseEntity.ok(empService.filter(name,pageNum,pageSize,sortCol,isAsc));
     }
 
     @PostMapping
@@ -73,5 +73,9 @@ public class EmpController {
     @GetMapping("/salary")
     public ResponseEntity<?> findBySalaryAndName(@RequestParam Double salary, @RequestParam String name){
         return ResponseEntity.ok(empService.findBySalaryAndName(salary,name));
+    }
+    @GetMapping("satistic")
+    public ResponseEntity<?> getHRStatistic(){
+        return ResponseEntity.ok(empService.getHRStatistic());
     }
 }
