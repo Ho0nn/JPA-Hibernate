@@ -1,6 +1,7 @@
 package org.example.springjpahr.service;
 
 import org.example.springjpahr.HRStatisticProjection;
+import org.example.springjpahr.Projection.EmpProjection;
 import org.example.springjpahr.entity.Employee;
 import org.example.springjpahr.repositories.EmpRepo;
 import org.springframework.beans.factory.annotation.Autowired;

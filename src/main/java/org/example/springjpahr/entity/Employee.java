@@ -37,7 +37,12 @@ public class Employee {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Employee() {}
+    public Employee(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Employee() {super();}
 
 
     public Long getId() {

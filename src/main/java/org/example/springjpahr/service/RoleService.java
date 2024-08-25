@@ -31,5 +31,7 @@ public class RoleService {
     public List<Role> findAll() {
         return roleRepo.findAll();
     }
-
+    Role findByName(String name) {
+     return roleRepo.findByName(name);
+    }
 }
